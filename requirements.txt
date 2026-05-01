@@ -1,5 +1,4 @@
 django==4.2.16
-waitress==3.0.0
 werkzeug==3.0.3
 
 # MySQL driver — PyMySQL is pure Python (no compiler needed).

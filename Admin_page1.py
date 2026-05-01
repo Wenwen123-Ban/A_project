@@ -98,17 +98,9 @@ def main():
     if seed_result.returncode != 0:
         print("[LBAS] WARNING: seed_demo had an issue, but continuing...")
 
-    # Step 3: Start the server
-    print(f"\n[LBAS] Starting server on port {PORT}...")
-    try:
-        import waitress  # noqa: F401
-        server_cmd = [
-            sys.executable, "-c",
-            f"import waitress; from lbas_project.wsgi import application; "
-            f"waitress.serve(application, host='{HOST}', port={PORT}, threads=2)"
-        ]
-    except ImportError:
-        server_cmd = [sys.executable, "manage.py", "runserver", f"{HOST}:{PORT}", "--noreload"]
+    # Step 3: Start the server (Django runserver only)
+    print(f"\n[LBAS] Starting Django server on port {PORT}...")
+    server_cmd = [sys.executable, "manage.py", "runserver", f"{HOST}:{PORT}", "--noreload"]
 
     server_proc = subprocess.Popen(server_cmd, cwd=base_dir)
 

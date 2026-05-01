@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Book, Category
-from .utils import parse_json_body, require_auth, require_admin, unauth
+from .utils import parse_json_body, require_auth, require_admin, unauth, paginate_items
 
 _DEFAULTS = ['General', 'Mathematics', 'Science', 'Literature']
 
@@ -24,12 +24,14 @@ def _all_categories():
 
 def api_get_books(request):
     from .store import get_books
-    return JsonResponse(get_books(), safe=False)
+    payload = paginate_items(request, get_books(), serializer=lambda x: x)
+    return JsonResponse(payload)
 
 
 def api_admin_get_books(request):
     from .store import get_books
-    return JsonResponse(get_books(), safe=False)
+    payload = paginate_items(request, get_books(), serializer=lambda x: x)
+    return JsonResponse(payload)
 
 
 @csrf_exempt
