@@ -1,0 +1,7 @@
+:root {
+  --bg-primary:#ffffff;--bg-secondary:#f4f6f9;--text-primary:#1a2e55;--text-secondary:#5a6475;--card-bg:#ffffff;--border-color:#e0e4ea;--nav-bg:#1a2e55;--accent:#d4941a;--success:#1e7a6e;--danger:#c0392b;
+}
+body.lbas-dark {
+  --bg-primary:#0a1628;--bg-secondary:#0f1e38;--text-primary:#f5f0e8;--text-secondary:rgba(245,240,232,0.6);--card-bg:#142240;--border-color:rgba(255,255,255,0.08);--nav-bg:#060e1e;--accent:#f0b840;--success:#4ecdc4;--danger:#e87c6e;
+}
+body{background:var(--bg-primary);color:var(--text-primary)}

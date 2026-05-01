@@ -160,3 +160,37 @@ class DateRestriction(models.Model):
 
     def __str__(self):
         return f'{self.date} ({self.action})'
+
+
+class OtpRequest(models.Model):
+    school_id = models.CharField(max_length=50, db_index=True)
+    otp_hash = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+    lockout_until = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'lbas_otp_requests'
+
+
+class ProblemReport(models.Model):
+    school_id = models.CharField(max_length=50, db_index=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='pending')
+
+    class Meta:
+        db_table = 'lbas_problem_reports'
+
+
+class AuditLog(models.Model):
+    actor_id = models.CharField(max_length=50)
+    action = models.CharField(max_length=100)
+    target_type = models.CharField(max_length=50, blank=True)
+    target_id = models.CharField(max_length=100, blank=True)
+    detail = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'lbas_audit_log'
