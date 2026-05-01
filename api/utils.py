@@ -135,3 +135,33 @@ def log_action(actor_id, action, target_type='', target_id='', detail=''):
         AuditLog.objects.create(actor_id=str(actor_id or ''), action=str(action or ''), target_type=str(target_type or ''), target_id=str(target_id or ''), detail=str(detail or ''))
     except Exception:
         pass
+
+
+def paginate_items(request, items, serializer=None, default_page_size=50, max_page_size=200):
+    """Paginate querysets/lists via ?page=1&page_size=50 and return JSON-friendly payload."""
+    try:
+        page = max(1, int(request.GET.get('page', 1)))
+    except (TypeError, ValueError):
+        page = 1
+    try:
+        page_size = int(request.GET.get('page_size', default_page_size))
+    except (TypeError, ValueError):
+        page_size = default_page_size
+    page_size = max(1, min(page_size, max_page_size))
+
+    total = items.count() if hasattr(items, 'count') else len(items)
+    start = (page - 1) * page_size
+    end = start + page_size
+    sliced = items[start:end]
+    if serializer:
+        results = [serializer(obj) for obj in sliced]
+    else:
+        results = [model_to_dict(obj) for obj in sliced]
+
+    return {
+        'results': results,
+        'page': page,
+        'page_size': page_size,
+        'total': total,
+        'pages': (total + page_size - 1) // page_size,
+    }

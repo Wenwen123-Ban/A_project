@@ -2,7 +2,7 @@ import uuid
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import NewsPost
-from .utils import require_admin, require_auth, unauth
+from .utils import require_admin, require_auth, unauth, paginate_items
 
 
 def _p(p):
@@ -16,7 +16,7 @@ def _p(p):
 @csrf_exempt
 def api_news_list(request):
     if request.method == 'GET':
-        return JsonResponse([_p(p) for p in NewsPost.objects.all().order_by('-date')], safe=False)
+        return JsonResponse(paginate_items(request, NewsPost.objects.all().order_by('-date'), serializer=_p))
     if request.method == 'POST':
         if not require_auth(request):
             return unauth()

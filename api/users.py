@@ -6,7 +6,7 @@ def _pick_avatar(): return _random.choice(_AVATARS)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import UserProfile
-from .utils import parse_json_body, require_auth, require_admin, unauth, resolve_photo
+from .utils import parse_json_body, require_auth, require_admin, unauth, resolve_photo, paginate_items
 
 
 def _u(u):
@@ -21,23 +21,23 @@ def _u(u):
 def api_get_users(request):
     if not require_auth(request):
         return unauth()
-    return JsonResponse([_u(u) for u in UserProfile.objects.filter(is_staff=False).order_by('school_id')], safe=False)
+    return JsonResponse(paginate_items(request, UserProfile.objects.filter(is_staff=False).order_by('school_id'), serializer=_u))
 
 
 def api_get_admins(request):
     if not require_auth(request):
         return unauth()
-    return JsonResponse([_u(u) for u in UserProfile.objects.filter(is_staff=True).order_by('school_id')], safe=False)
+    return JsonResponse(paginate_items(request, UserProfile.objects.filter(is_staff=True).order_by('school_id'), serializer=_u))
 
 
 def api_admin_get_users(request):
     from .store import get_users
-    return JsonResponse(get_users(), safe=False)
+    return JsonResponse(paginate_items(request, get_users(), serializer=lambda x: x))
 
 
 def api_admin_get_admins(request):
     from .store import get_admins
-    return JsonResponse(get_admins(), safe=False)
+    return JsonResponse(paginate_items(request, get_admins(), serializer=lambda x: x))
 
 
 def api_get_user(request, school_id):

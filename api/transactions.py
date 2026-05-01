@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Transaction, Book, UserProfile
-from .utils import parse_json_body, require_auth, require_admin, unauth
+from .utils import parse_json_body, require_auth, require_admin, unauth, paginate_items
 
 
 def _tx(t):
@@ -29,19 +29,19 @@ def _tx(t):
 def api_get_transactions(request):
     if not require_auth(request):
         return unauth()
-    return JsonResponse([_tx(t) for t in Transaction.objects.all().order_by('-date')], safe=False)
+    return JsonResponse(paginate_items(request, Transaction.objects.all().order_by('-date'), serializer=_tx))
 
 
 def api_admin_get_transactions(request):
     from .store import get_transactions
     txs = get_transactions()
     txs.sort(key=lambda t: str(t.get('date', '')), reverse=True)
-    return JsonResponse(txs, safe=False)
+    return JsonResponse(paginate_items(request, txs, serializer=lambda x: x))
 
 
 def api_admin_approval_records(request):
     qs = Transaction.objects.filter(status__in=['Borrowed', 'Returned']).order_by('-date')
-    return JsonResponse([_tx(t) for t in qs], safe=False)
+    return JsonResponse(paginate_items(request, qs, serializer=_tx))
 
 
 @csrf_exempt

@@ -22,7 +22,7 @@ urlpatterns = [
     # API endpoints
     path('api/', include('api.urls')),
 
-    # Static files — served by Django/waitress directly (no WhiteNoise needed)
+    # Static files — served directly by Django (no WhiteNoise needed)
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static'}),
 
     # Uploaded profile photos from Profile/
