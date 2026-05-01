@@ -1,0 +1,9 @@
+django==4.2.16
+waitress==3.0.0
+werkzeug==3.0.3
+
+# MySQL driver — PyMySQL is pure Python (no compiler needed).
+# If you already have mysqlclient installed, that also works.
+pymysql==1.1.0
+
+# Optional: mysqlclient==2.2.4  (faster, needs C build tools / XAMPP dev headers)

@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome — Library Borrowing and Assistance System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'css/Welcome_main.css' %}" />
+</head>
+<body>
+
+  <!-- ===== HEADER (same design as landing) ===== -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <img src="https://up.yimg.com/ib/th/id/OIP.3wZU8KYQ9wGoRl3eoloR0QHaHa?pid=Api&rs=1&c=1&qlt=95&w=114&h=114"
+             alt="School Logo" class="school-logo" />
+        <div class="system-title">
+          <h1>Library Borrowing and Assistance System</h1>
+          <p class="mb-0">Welcome to the official library website</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== NAVBAR (Welcome-specific: Help + Creators) ===== -->
+  <nav class="navbar navbar-expand-lg custom-nav sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-light" href="/welcome">LBAS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#welcomeNav" aria-controls="welcomeNav"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="welcomeNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+          <!-- Help dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-question-circle me-1"></i>Help
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item disabled text-muted" href="#">
+                  <i class="fas fa-bug me-2"></i>Bug Report
+                  <span class="badge bg-secondary ms-1" style="font-size:0.65rem;">Soon</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item disabled text-muted" href="#">
+                  <i class="fas fa-exclamation-triangle me-2"></i>Error Report
+                  <span class="badge bg-secondary ms-1" style="font-size:0.65rem;">Soon</span>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item disabled text-muted" href="#">
+                  <i class="fas fa-key me-2"></i>Forgot Password
+                  <span class="badge bg-secondary ms-1" style="font-size:0.65rem;">Soon</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Creators -->
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="openCreatorsModal(); return false;">
+              <i class="fas fa-users me-1"></i>Creators
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO / WELCOME SECTION ===== -->
+  <main class="welcome-main">
+
+    <!-- Slideshow background panels -->
+    <div class="slideshow-bg" id="slideshowBg">
+      <div class="slide slide-1 active"></div>
+      <div class="slide slide-2"></div>
+      <div class="slide slide-3"></div>
+    </div>
+
+    <div class="welcome-hero">
+      <div class="hero-glass">
+        <div class="hero-icon-wrap">
+          <i class="fas fa-book-open hero-icon"></i>
+        </div>
+        <h2 class="hero-title">Welcome to LBAS</h2>
+        <p class="hero-subtitle">
+          Library Borrowing and Assistance System<br>
+          <span class="hero-tagline">Borrow smarter. Reserve easier. Learn more.</span>
+        </p>
+        <div class="hero-actions">
+          <a href="/landing" class="btn-enter" id="enterBtn">
+            <i class="fas fa-door-open me-2"></i>Enter Library
+          </a>
+        </div>
+        <p class="hero-hint">
+          <i class="fas fa-info-circle me-1"></i>
+          Browse books, reserve titles, and track your borrowed items.
+        </p>
+      </div>
+    </div>
+
+    <!-- Slide dots -->
+    <div class="slide-dots">
+      <span class="dot active" data-idx="0"></span>
+      <span class="dot" data-idx="1"></span>
+      <span class="dot" data-idx="2"></span>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER (same design as landing) ===== -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <p class="mb-1">© 2026 Library Borrowing and Assistance System</p>
+      <small>Designed for students and library staff.</small>
+    </div>
+  </footer>
+
+  <!-- ===== CREATORS MODAL ===== -->
+  <div id="creatorsBackdrop" role="dialog" aria-modal="true" aria-hidden="true"
+       onclick="if(event.target===this) closeCreatorsModal();">
+    <div id="creatorsModal">
+      <article class="creators-card" onclick="event.stopPropagation();">
+        <button class="creators-close" type="button" onclick="closeCreatorsModal()" aria-label="Close">×</button>
+        <div class="creators-logo-box"><span>LBAS</span></div>
+        <h3 class="creators-title">Meet the Creators</h3>
+        <p class="text-muted small mb-3">LBAS Research Group — System V7.2 Beta</p>
+        <hr>
+        <p style="font-size:0.92rem;color:#444;line-height:1.7;text-align:center;margin:16px 0;">
+          LBAS was built by a dedicated research group committed to making library
+          borrowing accessible for every student — on campus and from home.
+        </p>
+        <div class="creators-pill">LBAS Research Group</div>
+        <p class="text-muted small mt-3 mb-4">Tangub City, Philippines · 2026</p>
+        <button class="btn w-100 text-white" style="background:#1565c0;"
+                type="button" onclick="closeCreatorsModal()">Close</button>
+      </article>
+    </div>
+  </div>
+
+  <!-- Page-exit overlay for soft transition -->
+  <div id="pageExitOverlay"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/Welcome_main.js' %}"></script>
+</body>
+</html>
