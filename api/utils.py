@@ -127,3 +127,11 @@ def resolve_photo(photo):
         return photo
     return 'default.png'
 
+
+
+def log_action(actor_id, action, target_type='', target_id='', detail=''):
+    from core.models import AuditLog
+    try:
+        AuditLog.objects.create(actor_id=str(actor_id or ''), action=str(action or ''), target_type=str(target_type or ''), target_id=str(target_id or ''), detail=str(detail or ''))
+    except Exception:
+        pass

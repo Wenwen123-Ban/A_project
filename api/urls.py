@@ -2,7 +2,7 @@ from django.urls import path
 from . import (
     auth, books, users, registration,
     tickets, leaderboard, news,
-    home_cards, date_restrictions, courses, transactions,
+    home_cards, date_restrictions, courses, transactions, recovery, logs,
 )
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -86,6 +86,13 @@ urlpatterns = [
     path('date_restrictions', date_restrictions.api_list),
     path('date_restrictions/check', date_restrictions.api_check),
     path('date_restrictions/set', date_restrictions.api_set),
+
+    
+    path('recovery/request-otp/', recovery.request_otp),
+    path('recovery/verify-otp/', recovery.verify_otp),
+    path('recovery/reset-password/', recovery.reset_password),
+    path('recovery/report-problem/', recovery.report_problem),
+    path('logs/', logs.api_logs),
 
     # Health check (no DB)
     path('ping', api_ping),
